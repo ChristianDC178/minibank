@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\packages\MiniBank\MiniBank.csproj" />
+    <ProjectReference Include="..\..\..\..\libs\MiniBank\MiniBank.csproj" />
     <ProjectReference Include="..\MiniBank.CustomersSrv.Domain\MiniBank.CustomersSrv.Domain.csproj" />
     <ProjectReference Include="..\MiniBank.CustomersSrv.Infrastructure\MiniBank.CustomersSrv.Infrastructure.csproj" />
   </ItemGroup>
