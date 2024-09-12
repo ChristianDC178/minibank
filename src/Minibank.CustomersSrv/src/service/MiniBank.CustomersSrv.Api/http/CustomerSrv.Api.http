@@ -1,0 +1,23 @@
+POST {{HostAddress}}/customers/
+Content-Type: application/json
+{
+  "first_name" : "Christian", 
+  "last_name" : "DC", 
+  "document" : {
+    "document_id" : 29632505, 
+    "type" : "DNI"
+  }
+}
+###
+
+GET {{HostAddress}}/customers/{customerId}
+
+###
+
+POST {{HostAddress}}/transactions/
+
+###
+
+GET {{HostAddress}}/transactions/{transactionId}
+
+###

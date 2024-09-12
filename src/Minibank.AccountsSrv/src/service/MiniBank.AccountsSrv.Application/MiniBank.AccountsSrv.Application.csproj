@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiniBank.AccountsSrv.Domain\MiniBank.AccountsSrv.Domain.csproj" />
+    <ProjectReference Include="..\MiniBank.AccountsSrv.Infrastructure\MiniBank.AccountsSrv.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
