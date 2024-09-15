@@ -19,7 +19,7 @@ public static class ServiceExtensions
     {
         services.RegisterMediatRInternal();
         services.RegisterRepositories();
-        RegisterMongoDBClassMaps();
+        services.RegisterMongoDBClassMaps();
         services.RegisterMongoDBClient();
         services.RegisterValidators();
         services.RegisterRedisCacheClient();
@@ -38,7 +38,7 @@ public static class ServiceExtensions
         services.AddScoped<ICustomerRepository, CustomerRepository>();
     }
 
-    static void RegisterMongoDBClassMaps()
+    static void RegisterMongoDBClassMaps(this IServiceCollection services)
     {
         var assembly = Assembly.GetAssembly(typeof(CustomerRepository));
         MiniBank.MongoDB.RegisterClassMapBuilder.Register(assembly);

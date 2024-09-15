@@ -50,15 +50,15 @@ public static class CustomerEndpoints
     public static async Task<Results<Ok<string>, IResult>> GetCustomerById(
         Guid customerId,
         IMediator mediator,
-        ILogger logger,
+        //ILogger logger,
         CancellationToken cancellation)
     {
 
-        logger.LogDebug("Logging debug");
-        logger.LogInformation("Logging Info");
-        logger.LogWarning("Logging Warning");
-        logger.LogError("Logging Error");
-        logger.LogCritical("Logging Critical");
+        //logger.LogDebug("Logging debug");
+        //logger.LogInformation("Logging Info");
+        //logger.LogWarning("Logging Warning");
+        //logger.LogError("Logging Error");
+        //logger.LogCritical("Logging Critical");
 
         var customerIdRequest = new CustomerIdRequest()
         {
