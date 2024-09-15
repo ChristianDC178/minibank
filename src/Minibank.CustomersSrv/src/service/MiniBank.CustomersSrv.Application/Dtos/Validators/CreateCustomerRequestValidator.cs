@@ -23,7 +23,7 @@ public class CreateCustomerRequestValidator : AbstractValidator<CreateCustomerRe
         //RuleFor(x => x.Postcode).Must(BeAValidPostcode).WithMessage("Please specify a valid postcode");
     }
 }
-
+    
 public class AddressValidator : AbstractValidator<CreateCustomerAddressRequest>
 {
     public AddressValidator()

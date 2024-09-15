@@ -1,15 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using MiniBank.CustomersSrv.Infrastructure.Database;
-using MiniBank.CustomersSrv.Domain.Repositories;
-using System.Reflection.Emit;
-using MiniBank.MongoDB;
-using FluentValidation;
-using MiniBank.CustomersSrv.Application.Dtos.Requests;
-using System.ComponentModel;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using MiniBank.Cache;
-using MiniBank.CustomersSrv.Infrastructure.Cache;
+using MiniBank.CustomersSrv.Application.Dtos.Requests;
 using MiniBank.CustomersSrv.Domain.Entities;
+using MiniBank.CustomersSrv.Domain.Repositories;
+using MiniBank.CustomersSrv.Infrastructure.Cache;
+using MiniBank.CustomersSrv.Infrastructure.Database;
+using MiniBank.MongoDB;
+using System.Reflection;
 
 
 namespace MiniBank.CustomersSrv.Application.DependencyInjection;
