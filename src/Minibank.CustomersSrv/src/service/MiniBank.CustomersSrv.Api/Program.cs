@@ -7,6 +7,7 @@ using MiniBank.CustomersSrv.Application.DependencyInjection;
 using MiniBank.CustomersSrv.Application.Dtos.Requests;
 using MiniBank.CustomersSrv.Application.Dtos.Responses;
 using MiniBank.CustomersSrv.Domain.Entities;
+using MiniBank.ServiceRegistry;
 using Serilog;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
@@ -33,9 +34,14 @@ try
 
     builder.Services.AddHealthChecks();
 
+    builder.Services.RegisterConsulServiceDiscoveryProvider("customer-srv", "Customer Service");
+    
+
     builder.Services.AddControllers();
 
     builder.Services.RegisterApplicationDependencies();
+
+    
 
     builder.Services.AddSerilog((services, lc) =>
     {

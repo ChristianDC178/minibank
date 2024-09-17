@@ -2,6 +2,7 @@
 using MiniBank.CustomersSrv.Application.Dtos.Requests;
 using MiniBank.CustomersSrv.Application.Dtos.Responses;
 using MiniBank.CustomersSrv.Domain.Repositories;
+using MiniBank.ServiceRegistry;
 
 namespace MiniBank.CustomersSrv.Application.UseCases;
 
@@ -14,7 +15,6 @@ public class CreateCustomerAddressUseCase
 
     public async Task<Result<CreateCustomerResponse>> Handle(CreateCustomerAddressRequest request, CancellationToken cancellationToken)
     {
-
         var customer = await customerRepository.GetById(request.CustomerId, cancellationToken);
 
         if (customer is null)

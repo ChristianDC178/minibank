@@ -7,6 +7,7 @@ using MiniBank.CustomersSrv.Domain.Entities;
 using MiniBank.CustomersSrv.Domain.Repositories;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
+using MiniBank.ServiceRegistry;
 
 
 namespace MiniBank.CustomersSrv.Application.UseCases;
@@ -16,7 +17,8 @@ public class CreateCustomerUseCase
     ICustomerRepository customerRepository,
     IMinibankEntityCache<Customer> customersCache,
     IValidator<CreateCustomerRequest> requestValidator,
-    ILogger<CreateCustomerUseCase> logger
+    ILogger<CreateCustomerUseCase> logger, 
+    IServiceRegistry serviceRegistry
 )
 : IRequestHandler<CreateCustomerRequest, Result<CreateCustomerResponse>>
 {
@@ -25,6 +27,9 @@ public class CreateCustomerUseCase
     {
         try
         {
+
+            var customerSrv = await serviceRegistry.GetServiceAsync("customer-srv");
+            var accountsSrv = await serviceRegistry.GetServiceAsync("accounts-srv");
 
             logger.LogInformation("Creating customer");
 
