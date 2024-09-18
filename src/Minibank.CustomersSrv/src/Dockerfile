@@ -12,6 +12,9 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+
+
 COPY ["MiniBank.CustomersSrv.Api.csproj", "."]
 RUN dotnet restore "./MiniBank.CustomersSrv.Api.csproj"
 COPY . .
