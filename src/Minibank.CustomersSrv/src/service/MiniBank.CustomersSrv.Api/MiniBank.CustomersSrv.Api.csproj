@@ -20,11 +20,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="Elastic.Serilog.Sinks" Version="8.11.1" />
-		<PackageReference Include="MediatR" Version="12.4.0" />
+		<PackageReference Include="MediatR" Version="12.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
-		<PackageReference Include="Microsoft.OpenApi" Version="1.6.18" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
-		<PackageReference Include="NSwag.AspNetCore" Version="14.0.8" />
+		<PackageReference Include="Microsoft.OpenApi" Version="1.6.21" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+		<PackageReference Include="NSwag.AspNetCore" Version="14.1.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
 	</ItemGroup>
 

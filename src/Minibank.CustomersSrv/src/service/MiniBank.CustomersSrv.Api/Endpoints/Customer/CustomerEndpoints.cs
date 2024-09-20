@@ -37,6 +37,10 @@ public static class CustomerEndpoints
         CancellationToken cancellation)
     {
 
+        int zero = 0;
+
+        int r = 5 / zero;
+
         var result = await mediator.Send(request, cancellation);
 
         if (cancellation.IsCancellationRequested)

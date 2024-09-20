@@ -1,17 +1,13 @@
-using Elastic.Channels;
-using Elastic.Ingest.Elasticsearch.DataStreams;
-using Elastic.Ingest.Elasticsearch;
-using Elastic.Serilog.Sinks;
 using MiniBank.CustomersSrv.Api.Endpoints;
 using MiniBank.CustomersSrv.Application.DependencyInjection;
 using MiniBank.CustomersSrv.Application.Dtos.Requests;
 using MiniBank.CustomersSrv.Application.Dtos.Responses;
 using MiniBank.CustomersSrv.Domain.Entities;
+using MiniBank.Exceptions;
 using MiniBank.ServiceRegistry;
 using Serilog;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
-using Elastic.Transport;
 
 try
 {
@@ -31,17 +27,10 @@ try
         config.Version = "v1";
     });
 
-
     builder.Services.AddHealthChecks();
-
     builder.Services.RegisterConsulServiceDiscoveryProvider("customer-srv", "Customer Service");
-    
-
     builder.Services.AddControllers();
-
     builder.Services.RegisterApplicationDependencies();
-
-    
 
     builder.Services.AddSerilog((services, lc) =>
     {
@@ -86,8 +75,9 @@ try
     }
 
     app.MapControllers();
-
     app.AddMiniBankEndpoints();
+
+    app.UseMinibankCustomExceptionHandler();
 
     app.Run();
 
