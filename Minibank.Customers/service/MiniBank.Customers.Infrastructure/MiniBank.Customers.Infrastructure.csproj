@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.29.0" />
+    <PackageReference Include="NRedisStack" Version="0.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\..\..\libs\MiniBank\MiniBank.csproj" />
+    <ProjectReference Include="..\MiniBank.Customers.Domain\MiniBank.Customers.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
