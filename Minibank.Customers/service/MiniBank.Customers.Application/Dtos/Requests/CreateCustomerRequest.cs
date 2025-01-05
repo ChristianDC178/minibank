@@ -14,7 +14,7 @@ public record CreateCustomerRequest : IRequest<Result<CreateCustomerResponse>>
     public string LastName { get; set; }
 
     [JsonPropertyName("birth_date")]
-    public DateTime? BirthDate { get; set; }
+    public DateTime BirthDate { get; set; }
 
     [JsonPropertyName("document")]
     public DocumentDto Document { get; set; }

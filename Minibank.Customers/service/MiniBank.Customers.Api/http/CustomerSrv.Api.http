@@ -1,4 +1,4 @@
-POST {{HostAddress}}/customers/
+POST http://localhost:5049/customers/
 Content-Type: application/json
 {
   "first_name" : "Christian", 

@@ -1,3 +1,6 @@
+using Elastic.Serilog.Sinks;
+using Elastic.Channels;
+using Elastic.Transport;
 using MiniBank.CustomersSrv.Api.Endpoints;
 using MiniBank.CustomersSrv.Application.DependencyInjection;
 using MiniBank.CustomersSrv.Application.Dtos.Requests;
@@ -8,6 +11,8 @@ using MiniBank.ServiceRegistry;
 using Serilog;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using Elastic.Ingest.Elasticsearch;
+using Elastic.Ingest.Elasticsearch.DataStreams;
 
 try
 {
@@ -37,24 +42,15 @@ try
         lc.ReadFrom.Configuration(builder.Configuration);
         lc.Enrich.FromLogContext();
 
-        //lc.WriteTo.Elasticsearch(new[] { new Uri("http://localhost:9200") }, opts =>
-        //{
-        //    opts.DataStream = new DataStreamName("logs", "console-example", "demo");
-        //    opts.BootstrapMethod = BootstrapMethod.Failure;
-        //    opts.ConfigureChannel = channelOpts =>
-        //    {
-        //        //channelOpts.BufferOptions = new BufferOptions
-        //        //{
-        //        //    //ConcurrentConsumers = 10
-        //        //};
-        //    };
-        //}, transport =>
-        //{
-        //    transport.Authentication(new BasicAuthentication("elastic", "elastic1234")); // Basic Auth
-        //    // transport.Authentication(new ApiKey(base64EncodedApiKey)); // ApiKey
-        //});
+        lc.WriteTo.Elasticsearch(new[] { new Uri("http://localhost:9200") }, opts =>
+        {
+            opts.DataStream = new DataStreamName("logs", "customer-service", "demo");
+            opts.BootstrapMethod = BootstrapMethod.Failure;
+        }, transport =>
+        {
+            transport.Authentication(new BasicAuthentication("elastic", "elastic1234")); 
+        });
     });
-
 
     var app = builder.Build();
 

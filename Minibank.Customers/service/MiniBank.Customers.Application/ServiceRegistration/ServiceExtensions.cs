@@ -47,12 +47,24 @@ public static class ServiceExtensions
     static void RegisterMongoDBClient(this IServiceCollection services)
     {
         services.AddSingleton<IMongoClientWrapper, MongoClientWrapper>();
+
+        services.AddScoped<IMongoDbDatabaseContext<Customer>, MongoEntityDbContext<Customer>>((provider) => {
+            var instance = provider.GetService<IMongoClientWrapper>();
+            return new MongoEntityDbContext<Customer>(instance) { DatabaseName = "customer-srv", CollectionName = "customers" };
+        });
+
+        services.AddScoped<IMongoDbDatabaseContext<Address>, MongoEntityDbContext<Address>>((provider) => {
+            var instance = provider.GetService<IMongoClientWrapper>();
+            return new MongoEntityDbContext<Address>(instance) { DatabaseName = "customer-srv", CollectionName = "address" };
+        });
     }
 
     static void RegisterRedisCacheClient(this IServiceCollection services)
     {
         services.AddSingleton<IRedisClientWrapper, RedisClientWrapper>();
         services.AddScoped<IMinibankEntityCache<Customer>, CustomersCache>();
+        //services.AddScoped<IAbstractCache<object>, ConcretCache<object>>();
+
     }
 
     static void RegisterValidators(this IServiceCollection services)

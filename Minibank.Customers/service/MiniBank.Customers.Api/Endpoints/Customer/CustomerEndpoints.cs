@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Elastic.CommonSchema;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MiniBank.CustomersSrv.Application.Dtos.Requests;
@@ -20,9 +21,9 @@ public static class CustomerEndpoints
             .MapGet("/{customerId}", GetCustomerById)
             .WithName("GetCustomerById 1")
             .WithSummary("Es el endpoint que permite obtener los customer por ID")
-            .Produces<CreateCustomerResponse>(201)
+            .Produces<CreateCustomerResponse>(201);
             //.ProducesValidationProblem(404, contentType: "application/json")
-            .WithOpenApi();
+            //.WithOpenApi();
 
         customerApi.MapPost("/", CreateCustomer);
         customerApi.MapPost("/{customerId}", CreateCustomerAddress);
@@ -31,38 +32,29 @@ public static class CustomerEndpoints
 
     }
 
+
     public static async Task<Results<Ok<CreateCustomerResponse>, IResult>> CreateCustomer(
         CreateCustomerRequest request,
         IMediator mediator,
         CancellationToken cancellation)
     {
 
-        int zero = 0;
-
-        int r = 5 / zero;
-
         var result = await mediator.Send(request, cancellation);
 
-        if (cancellation.IsCancellationRequested)
-            return TypedResults.BadRequest();
+        if (result.IsSuccess)
+        {
+            return TypedResults.Ok(result.Payload);
+        }
 
-        var result1 = TypedResults.StatusCode(200);
 
-        return result is not null ? TypedResults.Ok(result.Payload) : TypedResults.BadRequest();
+        return TypedResults.BadRequest();
     }
 
     public static async Task<Results<Ok<string>, IResult>> GetCustomerById(
         Guid customerId,
         IMediator mediator,
-        //ILogger logger,
         CancellationToken cancellation)
     {
-
-        //logger.LogDebug("Logging debug");
-        //logger.LogInformation("Logging Info");
-        //logger.LogWarning("Logging Warning");
-        //logger.LogError("Logging Error");
-        //logger.LogCritical("Logging Critical");
 
         var customerIdRequest = new CustomerIdRequest()
         {
@@ -71,8 +63,6 @@ public static class CustomerEndpoints
 
         var result = await mediator.Send(customerIdRequest, cancellation);
 
-        if (cancellation.IsCancellationRequested)
-            return TypedResults.BadRequest();
 
         return result is not null ? TypedResults.Ok("result.Payload") : TypedResults.NotFound();
     }
@@ -90,18 +80,5 @@ public static class CustomerEndpoints
 
         return TypedResults.BadRequest();
     }
-
-    //public static async Task<IResult> GetCustomers(
-    //  [FromQuery] string name, 
-    //  IMediator mediator,
-    //  CancellationToken cancellationToken)
-    //{
-
-
-
-    //    //var result = await mediator.Send(createCustomerRequest, cancellationToken);
-
-    //    //return TypedResults.BadRequest();
-    //}
 
 }

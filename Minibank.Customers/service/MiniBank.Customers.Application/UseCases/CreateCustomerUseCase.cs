@@ -8,7 +8,7 @@ using MiniBank.CustomersSrv.Domain.Repositories;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
 using MiniBank.ServiceRegistry;
-
+using MiniBank.MongoDB;
 
 namespace MiniBank.CustomersSrv.Application.UseCases;
 
@@ -28,9 +28,6 @@ public class CreateCustomerUseCase
         try
         {
 
-            var customerSrv = await serviceRegistry.GetServiceAsync("customer-srv");
-            var accountsSrv = await serviceRegistry.GetServiceAsync("accounts-srv");
-
             logger.LogInformation("Creating customer");
 
             var validationResult = requestValidator.Validate(request);
@@ -47,9 +44,17 @@ public class CreateCustomerUseCase
                 Type = request.Document.Type
             };
 
+            var existentCustomer = await customerRepository.GetByDocument(document, cancellationToken);
+
+            if (existentCustomer != null) 
+            {
+                return Result.Failure("There is a customer with the document id");
+            }
+
             Customer customer = new Customer(
                 request.FirstName,
                 request.LastName,
+                request.BirthDate,
                 document);
 
             await customerRepository.Save(customer, cancellationToken);

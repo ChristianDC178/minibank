@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using ThirdParty.BouncyCastle.Asn1;
-
-namespace MiniBank.ServiceRegistry;
+﻿namespace MiniBank.ServiceRegistry;
 
 public interface IServiceRegistry
 {
