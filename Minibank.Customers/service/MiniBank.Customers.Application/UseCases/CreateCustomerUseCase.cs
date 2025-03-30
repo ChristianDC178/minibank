@@ -34,7 +34,9 @@ public class CreateCustomerUseCase
 
             if (!validationResult.IsValid)
             {
-                Result.Failure(validationResult.Errors.First().ErrorMessage);
+                //return Result.Failure(validationResult.Errors.First().ErrorMessage);
+                return Result.Failure(validationResult.Errors.First().ErrorMessage);
+
             }
 
             //Traer el customer desde la base de datos por el documentid

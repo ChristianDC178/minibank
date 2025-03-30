@@ -46,7 +46,6 @@ public static class CustomerEndpoints
             return TypedResults.Ok(result.Payload);
         }
 
-
         return TypedResults.BadRequest();
     }
 
@@ -62,7 +61,6 @@ public static class CustomerEndpoints
         };
 
         var result = await mediator.Send(customerIdRequest, cancellation);
-
 
         return result is not null ? TypedResults.Ok("result.Payload") : TypedResults.NotFound();
     }

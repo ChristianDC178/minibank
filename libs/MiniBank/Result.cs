@@ -1,4 +1,6 @@
-﻿namespace MiniBank;
+﻿using Consul;
+
+namespace MiniBank;
 
 public class Error
 {
@@ -25,22 +27,37 @@ public class ResultBase
     public bool IsError => _error == null;
     public string Message => _message;
 
+
+    public ResultBase()
+    {
+    }
+
+    public ResultBase(Error error)
+    {
+        Error = error;
+    }
+
     public Error Error
     {
         get => _error;
         protected set => _error = value;
     }
+
 }
+
+
 
 public class Result : ResultBase
 {
-
     public object Payload { get; set; }
 
-    public Result(Error error)
+    public Result()
     {
-        ArgumentNullException.ThrowIfNull(nameof(error));
-        Error = error;
+    }
+
+    public Result(Error error) : base(error)
+    {
+
     }
 
     public static Result<T> Success<T>(T payload)
@@ -51,36 +68,42 @@ public class Result : ResultBase
         };
     }
 
-    public static Result Failure(string message)
+    public static Result<Error> Failure(string message)
     {
-        var result = new Result(new Error(message));
+        var result = new Result<Error>(new Error(message));
         return result;
     }
 
-    public static Result Failure(int code, string message)
+
+    public static Result<Error> Failure(int code, string message)
     {
-        var result = new Result(new Error(code, message));
+        var result = new Result<Error>(new Error(code, message));
+        
         return result;
     }
+
 }
 
 public class Result<T> : ResultBase
 {
     public T Payload { get; set; }
 
-    public static implicit operator Result(Result<T> sourceResult)
+    public Result() 
     {
-        Result targetResult = null;
-
-        if (sourceResult.IsError)
-        {
-            targetResult = new Result(sourceResult.Error);
-        }
-        else
-        {
-            targetResult.Payload = sourceResult.Payload;
-        }
-
-        return targetResult;
     }
+
+    public Result(Error error) : base(error)
+    {
+        var a = new Result<Error>(error);
+        var b = new Result();
+    }
+
+
+    public static implicit operator Result<T>(Result<Error> sourceResult)
+    {
+        return sourceResult;
+    }
+  
 }
+
+
