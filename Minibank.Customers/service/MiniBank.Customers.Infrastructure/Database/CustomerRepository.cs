@@ -1,5 +1,6 @@
 ﻿using MiniBank.CustomersSrv.Domain.Entities;
 using MiniBank.CustomersSrv.Domain.Repositories;
+using MiniBank.Exceptions;
 using MiniBank.MongoDB;
 using MongoDB.Driver;
 
@@ -16,58 +17,71 @@ public class CustomerRepository
     {
         try
         {
-            InsertOneOptions insertOneOptions = new InsertOneOptions();
-            insertOneOptions.Comment = "Inserting a new person";
-
-            await customerDbContext.Collection.InsertOneAsync(customer, insertOneOptions, cancellationToken);
-
+            await customerDbContext.Collection.InsertOneAsync(customer, null, cancellationToken);
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            throw new MinibankRepositoryException("There is an error saving the customer", ex);
         }
     }
 
     public async Task<Customer> GetById(Guid customerId, CancellationToken cancellationToken)
     {
+        try
+        {
+            var filter = Builders<Customer>.Filter.Eq(c => c.EntityId, customerId);
+            var customer = await customerDbContext.Collection.Find(filter).FirstOrDefaultAsync();
 
-        var filter = Builders<Customer>.Filter.Eq(c => c.EntityId, customerId);
-        var customer = await customerDbContext.Collection.Find(filter).FirstOrDefaultAsync();
-
-        return customer;
+            return customer;
+        }
+        catch (Exception ex)
+        {
+            throw new MinibankRepositoryException($"There is an error retrieving the customer by Id. Customer Id: {customerId}", ex);
+        }
     }
 
 
     public async Task<Customer> GetByDocument(Document document, CancellationToken cancellationToken)
     {
+        try
+        {
+            var documentIdFilter = Builders<Customer>.Filter.Eq(C => C.Document.DocumentId, document.DocumentId);
+            var documentType = Builders<Customer>.Filter.Eq(C => C.Document.Type, document.Type);
 
-        var documentIdFilter = Builders<Customer>.Filter.Eq(C => C.Document.DocumentId, document.DocumentId);
-        var documentType = Builders<Customer>.Filter.Eq(C => C.Document.Type, document.Type);
+            var filter = Builders<Customer>.Filter.And(documentIdFilter, documentType);
+            var customer = await customerDbContext.Collection.Find(filter).FirstOrDefaultAsync();
 
-        var filter = Builders<Customer>.Filter.And(documentIdFilter, documentType);
-        var customer = await customerDbContext.Collection.Find(filter).FirstOrDefaultAsync();
-
-        return customer;
+            return customer;
+        }
+        catch (Exception ex)
+        {
+            throw new MinibankRepositoryException($"There is an error retrieving the customer by document. Document Id: {document?.DocumentId}", ex);
+        }
     }
 
 
     public async Task<bool> Update(Customer customer, CancellationToken cancellationToken)
     {
 
-        var filter = Builders<Customer>.Filter.Eq(c => c.EntityId, customer.EntityId);
+        try
+        {
 
-        var update = Builders<Customer>.Update
-            .Set(c => c.FirstName, customer.FirstName)
-            .Set(c => c.LastName, customer.LastName)
-            .Set(c => c.Document, customer.Document);
+            var filter = Builders<Customer>.Filter.Eq(c => c.EntityId, customer.EntityId);
 
+            var update = Builders<Customer>.Update
+                .Set(c => c.FirstName, customer.FirstName)
+                .Set(c => c.LastName, customer.LastName)
+                .Set(c => c.Document, customer.Document);
 
+            var updateResult = await customerDbContext.Collection.UpdateOneAsync(filter, update);
 
-        var updateResult = await customerDbContext.Collection.UpdateOneAsync(filter, update);
-
-        return true;
-
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new MinibankRepositoryException($"There is an error updating the customer. Customer Id: {customer?.EntityId}", ex);
+        }
     }
 
     public async Task<bool> Replace(Customer customer, CancellationToken cancellationToken)
@@ -75,7 +89,6 @@ public class CustomerRepository
 
         var replacementResult = await customerDbContext.Collection.ReplaceOneAsync<Customer>((c) =>
                                 c.EntityId == customer.EntityId, customer, cancellationToken: cancellationToken);
-
         return true;
 
     }

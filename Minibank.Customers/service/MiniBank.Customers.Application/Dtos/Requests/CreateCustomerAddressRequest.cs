@@ -4,12 +4,13 @@ using System.Text.Json.Serialization;
 
 namespace MiniBank.CustomersSrv.Application.Dtos.Requests;
 
-public record CreateCustomerAddressRequest : IRequest<Result<CreateCustomerResponse>>
+public record CreateCustomerAddressRequest : IRequest<Result<CustomerResponse>>
 {
     public Guid CustomerId { get; set; }
 
     [JsonPropertyName("city")]
     public string City { get; set; }
+
     [JsonPropertyName("state")]
     public string State { get; set; }
 

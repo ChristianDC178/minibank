@@ -1,10 +1,11 @@
-﻿using System.Text.Json.Serialization;
+﻿using MediatR;
+using MiniBank.CustomersSrv.Application.Dtos.Responses;
+using System.Text.Json.Serialization;
 
-namespace MiniBank.CustomersSrv.Application.Dtos.Responses;
+namespace MiniBank.CustomersSrv.Application.Dtos.Requests;
 
-public class CreateCustomerResponse
+public record UpdateCustomerRequest : IRequest<Result<CustomerResponse>> 
 {
-
     [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
@@ -21,5 +22,3 @@ public class CreateCustomerResponse
     public DocumentDto Document { get; set; }
 
 }
-
-

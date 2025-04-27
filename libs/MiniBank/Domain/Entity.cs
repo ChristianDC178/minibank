@@ -1,11 +1,9 @@
 ﻿namespace MiniBank.Domain;
 
-
 public interface IEntity
 {
 
 }
-
 
 public abstract class EntityBase : IEntity
 {

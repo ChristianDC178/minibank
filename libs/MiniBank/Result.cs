@@ -1,6 +1,4 @@
-﻿using Consul;
-
-namespace MiniBank;
+﻿namespace MiniBank;
 
 public class Error
 {
@@ -94,8 +92,6 @@ public class Result<T> : ResultBase
 
     public Result(Error error) : base(error)
     {
-        var a = new Result<Error>(error);
-        var b = new Result();
     }
 
 

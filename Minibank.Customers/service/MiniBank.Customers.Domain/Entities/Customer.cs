@@ -1,6 +1,8 @@
-﻿namespace MiniBank.CustomersSrv.Domain.Entities;
+﻿using MiniBank.Domain;
 
-public class Customer //: AuditableEntity
+namespace MiniBank.CustomersSrv.Domain.Entities;
+
+public class Customer : AuditableEntity
 {
     public Customer(
         string firstName,
@@ -15,8 +17,7 @@ public class Customer //: AuditableEntity
         
         EntityId = Guid.NewGuid();
     }
-
-    public Guid EntityId { get; private set; }
+    
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public DateTime BirthDate { get; set; }
@@ -24,27 +25,3 @@ public class Customer //: AuditableEntity
     public Document Document { get; set; }
 
 }
-
-public class Document
-{
-    public int DocumentId { get; set; }
-    public string Type { get; set; }
-}
-
-public class Address
-{
-    public string City { get; set; }
-    public string State { get; set; }
-    public string StreetName { get; set; }
-    public int StreetNumber { get; set; }
-    public string ZipCode { get; set; }
-
-}
-
-public class Country
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Code { get; set; }
-}
-

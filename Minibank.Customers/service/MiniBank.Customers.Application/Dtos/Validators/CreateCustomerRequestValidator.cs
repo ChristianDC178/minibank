@@ -23,7 +23,7 @@ public class CreateCustomerRequestValidator : AbstractValidator<CreateCustomerRe
         //RuleFor(x => x.Postcode).Must(BeAValidPostcode).WithMessage("Please specify a valid postcode");
     }
 }
-    
+
 public class AddressValidator : AbstractValidator<CreateCustomerAddressRequest>
 {
     public AddressValidator()
@@ -35,8 +35,30 @@ public class AddressValidator : AbstractValidator<CreateCustomerAddressRequest>
             .MaximumLength(20)
             .WithMessage((req) =>
             {
-                return string.Empty;
+                return "Street name is required";
             });
-      
+
+        RuleFor(x => x.City)
+          .NotEmpty()
+          .NotNull()
+          .MinimumLength(3)
+          .MaximumLength(20)
+          .WithMessage((req) =>
+          {
+              return "City is required";
+          });
+
+
+        RuleFor(x => x.State)
+          .NotEmpty()
+          .NotNull()
+          .MinimumLength(3)
+          .MaximumLength(20)
+          .WithMessage((req) =>
+          {
+              return "State is required";
+          });
+
+
     }
 }

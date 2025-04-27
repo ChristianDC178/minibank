@@ -2,38 +2,56 @@
 using MiniBank.CustomersSrv.Application.Dtos.Requests;
 using MiniBank.CustomersSrv.Application.Dtos.Responses;
 using MiniBank.CustomersSrv.Domain.Repositories;
+using MiniBank.CustomersSrv.Application.Dtos.Validators;
 using MiniBank.ServiceRegistry;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 namespace MiniBank.CustomersSrv.Application.UseCases;
 
 public class CreateCustomerAddressUseCase
 (
-    ICustomerRepository customerRepository
+    ICustomerRepository customerRepository,
+    IValidator<CreateCustomerAddressRequest> CreateCustomerAddressRequestValidator,
+    ILogger<CreateCustomerAddressUseCase> logger
 )
-: IRequestHandler<CreateCustomerAddressRequest, Result<CreateCustomerResponse>>
+: IRequestHandler<CreateCustomerAddressRequest, Result<CustomerResponse>>
 {
 
-    public async Task<Result<CreateCustomerResponse>> Handle(CreateCustomerAddressRequest request, CancellationToken cancellationToken)
+    public async Task<Result<CustomerResponse>> Handle(CreateCustomerAddressRequest request, CancellationToken cancellationToken)
     {
-        var customer = await customerRepository.GetById(request.CustomerId, cancellationToken);
-
-        if (customer is null)
+        try
         {
-            Result.Failure("Customer not found");
+            var validation = CreateCustomerAddressRequestValidator.Validate(request);
+
+            if (!validation.IsValid)
+            {
+                return Result.Failure(validation.Errors.First().ErrorMessage);
+            }
+
+            var customer = await customerRepository.GetById(request.CustomerId, cancellationToken);
+
+            if (customer == null)
+            {
+                Result.Failure("Customer not found");
+            }
+
+            customer.Address = new Domain.Entities.Address()
+            {
+                State = request.State,
+                ZipCode = request.ZipCode,
+                StreetName = request.StreetName
+            };
+
+            var updateResult = await customerRepository.Update(customer, cancellationToken);
+
+            return Result.Success<CustomerResponse>(new CustomerResponse() { });
         }
-
-        customer.Address = new Domain.Entities.Address()
+        catch (Exception ex)
         {
-            State = request.State,
-            ZipCode = request.ZipCode,
-            StreetName = request.StreetName
-        };
-
-        var updateResult = await customerRepository.Update(customer, cancellationToken);
-
-        return Result.Success<CreateCustomerResponse>(new CreateCustomerResponse() { });
-
+            logger.LogError(ex, ex.Message);
+            throw;
+        }
     }
-
 
 }
