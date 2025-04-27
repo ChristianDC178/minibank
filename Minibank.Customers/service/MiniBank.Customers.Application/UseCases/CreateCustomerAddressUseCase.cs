@@ -6,6 +6,8 @@ using MiniBank.CustomersSrv.Application.Dtos.Validators;
 using MiniBank.ServiceRegistry;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using MiniBank;
+using MiniBank.ResultPattern;
 
 namespace MiniBank.CustomersSrv.Application.UseCases;
 

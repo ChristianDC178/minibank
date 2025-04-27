@@ -60,37 +60,19 @@ public class CustomerRepository
         }
     }
 
-
     public async Task<bool> Update(Customer customer, CancellationToken cancellationToken)
     {
-
         try
         {
 
-            var filter = Builders<Customer>.Filter.Eq(c => c.EntityId, customer.EntityId);
-
-            var update = Builders<Customer>.Update
-                .Set(c => c.FirstName, customer.FirstName)
-                .Set(c => c.LastName, customer.LastName)
-                .Set(c => c.Document, customer.Document);
-
-            var updateResult = await customerDbContext.Collection.UpdateOneAsync(filter, update);
-
+            var replacementResult = await customerDbContext.Collection.ReplaceOneAsync<Customer>((c) =>
+                                 c.EntityId == customer.EntityId, customer, cancellationToken: cancellationToken);
             return true;
         }
         catch (Exception ex)
         {
             throw new MinibankRepositoryException($"There is an error updating the customer. Customer Id: {customer?.EntityId}", ex);
         }
-    }
-
-    public async Task<bool> Replace(Customer customer, CancellationToken cancellationToken)
-    {
-
-        var replacementResult = await customerDbContext.Collection.ReplaceOneAsync<Customer>((c) =>
-                                c.EntityId == customer.EntityId, customer, cancellationToken: cancellationToken);
-        return true;
-
     }
 
 }

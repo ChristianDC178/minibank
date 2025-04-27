@@ -6,6 +6,7 @@ using MiniBank.CustomersSrv.Application.Dtos.Requests;
 using MiniBank.CustomersSrv.Application.Dtos.Responses;
 using MiniBank.CustomersSrv.Domain.Entities;
 using MiniBank.CustomersSrv.Domain.Repositories;
+using MiniBank.ResultPattern;
 using MiniBank.ServiceRegistry;
 using MongoDB.Driver;
 

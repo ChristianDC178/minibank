@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using MiniBank.CustomersSrv.Application.Dtos.Requests;
 using MiniBank.CustomersSrv.Application.Dtos.Responses;
+using MiniBank.ResultPattern;
 
 namespace MiniBank.CustomersSrv.Api.Endpoints.Customer;
 
@@ -73,6 +74,7 @@ public static class CustomerEndpoints
         var result = await mediator.Send(updateCustomerRequest, cancellation);
         return result is not null ? TypedResults.Ok("result.Payload") : TypedResults.NotFound();
     }
+
     public static async Task<Results<Ok<string>, IResult>> GetCustomerById(
        Guid customerId,
        IMediator mediator,

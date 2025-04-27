@@ -2,6 +2,7 @@
 using MiniBank.CustomersSrv.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using MiniBank.ResultPattern;
 
 namespace MiniBank.CustomersSrv.Application.UseCases;
 
@@ -18,12 +19,12 @@ internal class GetCustomersUseCase
         {
             var customer = await customerRepository.GetById(request.CustomerId, cancellationToken);
 
+            if (customer == null) {
+                Result.Failure($"There is not a customer with id {request.CustomerId}");
+            }
 
-            customer.LastName = "Cristiano";
-            customer.FirstName = "Ronaldo";
-
-            var updateResult = await customerRepository.Replace(customer, cancellationToken);
-
+            //aca debe ir el dto del customer
+            Result.Success(customer);
 
             return customer.FirstName;
         }
