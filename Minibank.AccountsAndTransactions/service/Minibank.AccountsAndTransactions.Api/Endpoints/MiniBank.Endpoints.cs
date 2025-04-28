@@ -1,7 +1,4 @@
-﻿
-using MiniBank.CustomersSrv.Api.Endpoints.Customer;
-
-namespace MiniBank.CustomersSrv.Api.Endpoints;
+﻿using MiniBank.AccountsAndTransactions.Api.Endpoints;
 
 public static class MiniBankEndpoints
 {

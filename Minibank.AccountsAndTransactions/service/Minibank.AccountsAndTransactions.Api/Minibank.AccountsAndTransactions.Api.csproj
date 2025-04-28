@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\libs\MiniBank\MiniBank.csproj" />
+    <ProjectReference Include="..\MiniBank.AccountsAndTransactions.Application\MiniBank.AccountsAndTransactions.Application.csproj" />
+  </ItemGroup>
+
+</Project>
