@@ -1,6 +1,7 @@
 ﻿using MiniBank.CustomersSrv.Domain.Entities;
 using MongoDB.Bson.Serialization;
 using MiniBank.MongoDB;
+using MiniBank.MongoDB.Extensions;
 
 namespace MiniBank.CustomersSrv.Infrastructure.Database.ClassMaps;
 

@@ -13,7 +13,7 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
-
+    
   <ItemGroup>
     <ProjectReference Include="..\..\..\libs\MiniBank\MiniBank.csproj" />
     <ProjectReference Include="..\MiniBank.Customers.Domain\MiniBank.Customers.Domain.csproj" />

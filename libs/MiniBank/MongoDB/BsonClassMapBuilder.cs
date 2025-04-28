@@ -11,7 +11,6 @@ public abstract class BsonClassMapBuilder<T>
     { 
         get => map;
     }
-
-    //public abstract BsonClassMap<T> RegisterClassMap();
+    
     public abstract void RegisterClassMap();
 }

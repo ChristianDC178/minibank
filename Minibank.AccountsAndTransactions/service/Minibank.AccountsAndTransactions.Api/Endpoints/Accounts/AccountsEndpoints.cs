@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using MiniBank.ResultPattern;
 
-namespace MiniBank.CustomersSrv.Api.Endpoints.Customer;
+namespace MiniBank.AccountsAndTransactions.Api.Endpoints;
 
 public static class CustomerEndpoints
 {
